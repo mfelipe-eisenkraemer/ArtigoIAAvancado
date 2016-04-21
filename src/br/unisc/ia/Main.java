@@ -76,7 +76,7 @@ public class Main {
         }
 
         Backpropagation neuralNet = new Backpropagation(15,1);
-        DataSet trainDataSet = new DataSet(15,7);
+        DataSet trainDataSet = new DataSet(76,12);
 
         double[] trainSet;
         double[] trainOutput;

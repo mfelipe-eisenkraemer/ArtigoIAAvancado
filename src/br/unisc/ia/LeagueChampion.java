@@ -38,6 +38,10 @@ public class LeagueChampion {
     public double[] getChampionIdInBinary() {
         // 12 is the minimum size, because there is a teamid = 2576
         String binaryString = ConvertUtils.convertToBinary(this.getChampionId(), 12);
-        return new double[ Integer.valueOf(binaryString) ];
+
+        double[] finalSet = {};
+
+        finalSet = ConvertUtils.convertBinaryStringToDoubleArray(finalSet, binaryString);
+        return finalSet;
     }
 }

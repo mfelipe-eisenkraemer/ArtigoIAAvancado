@@ -1,5 +1,7 @@
 package br.unisc.ia;
 
+import java.util.Arrays;
+
 /**
  * Created by MateusFelipe on 21/04/2016.
  */
@@ -243,23 +245,26 @@ public class TeamStatistics {
         String binaryPassSuccess = ConvertUtils.convertToBinary(integerPassSuccess, 8);
 
 
-        double[] finalSet = {
-                Integer.valueOf(binaryRanking),
-                Integer.valueOf(binaryRedCards),
-                Integer.valueOf(binaryYellowCards),
-                Integer.valueOf(binaryPossession),
-                Integer.valueOf(binaryAerialWon),
-                Integer.valueOf(binaryTacklePerGame),
-                Integer.valueOf(binaryInterceptionPerGame),
-                Integer.valueOf(binaryFoulsPerGame),
-                Integer.valueOf(binaryOffsideGivenPerGame),
-                Integer.valueOf(binaryShotsConcededPerGame),
-                Integer.valueOf(binaryShotsPerGame),
-                Integer.valueOf(binaryShotOnTargetPerGame),
-                Integer.valueOf(binaryDribbleWonPerGame),
-                Integer.valueOf(binaryFoulGivenPerGame),
-                Integer.valueOf(binaryPassSuccess),
-        };
+        double[] finalSet = {};
+
+        finalSet = ConvertUtils.convertBinaryStringToDoubleArray(finalSet, binaryRanking);
+        finalSet = ConvertUtils.convertBinaryStringToDoubleArray(finalSet, binaryRedCards);
+        finalSet = ConvertUtils.convertBinaryStringToDoubleArray(finalSet, binaryYellowCards);
+        finalSet = ConvertUtils.convertBinaryStringToDoubleArray(finalSet, binaryPossession);
+        finalSet = ConvertUtils.convertBinaryStringToDoubleArray(finalSet, binaryAerialWon);
+        finalSet = ConvertUtils.convertBinaryStringToDoubleArray(finalSet, binaryTacklePerGame);
+        finalSet = ConvertUtils.convertBinaryStringToDoubleArray(finalSet, binaryInterceptionPerGame);
+        finalSet = ConvertUtils.convertBinaryStringToDoubleArray(finalSet, binaryFoulsPerGame);
+        finalSet = ConvertUtils.convertBinaryStringToDoubleArray(finalSet, binaryOffsideGivenPerGame);
+        finalSet = ConvertUtils.convertBinaryStringToDoubleArray(finalSet, binaryShotsConcededPerGame);
+        finalSet = ConvertUtils.convertBinaryStringToDoubleArray(finalSet, binaryShotsPerGame);
+        finalSet = ConvertUtils.convertBinaryStringToDoubleArray(finalSet, binaryShotOnTargetPerGame);
+        finalSet = ConvertUtils.convertBinaryStringToDoubleArray(finalSet, binaryDribbleWonPerGame);
+        finalSet = ConvertUtils.convertBinaryStringToDoubleArray(finalSet, binaryFoulGivenPerGame);
+        finalSet = ConvertUtils.convertBinaryStringToDoubleArray(finalSet, binaryPassSuccess);
+
         return finalSet;
     }
+
+
 }
