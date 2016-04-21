@@ -75,8 +75,8 @@ public class Main {
             leagueChampionList.add(leagueChampion);
         }
 
-        Backpropagation neuralNet = new Backpropagation(15,1);
-        DataSet trainDataSet = new DataSet(76,12);
+        Backpropagation neuralNet = new Backpropagation(78,12);
+        DataSet trainDataSet = new DataSet(78,12);
 
         double[] trainSet;
         double[] trainOutput;

@@ -1,1 +1,1 @@
-{"type":"Backpropagation","inputLayerSize":15,"iterationNumber":10000,"outputLayerSize":1,"learningRate":0.3,"error":0.005,"hiddenLayerSizes":[3]}
+{"type":"Backpropagation","inputLayerSize":78,"iterationNumber":10000,"outputLayerSize":12,"learningRate":0.3,"error":0.005,"hiddenLayerSizes":[19]}

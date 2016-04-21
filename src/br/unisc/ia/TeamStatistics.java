@@ -187,8 +187,8 @@ public class TeamStatistics {
     public double[] getBinaryStatistics() {
         TeamStatistics teamStatistics = this;
 
-        // min size is 4 because 10 in binary = 1010
-        String binaryRanking = ConvertUtils.convertToBinary(teamStatistics.getRanking(), 4);
+        // min size is 6 because we have more than 31 rankings
+        String binaryRanking = ConvertUtils.convertToBinary(teamStatistics.getRanking(), 6);
 
         // min size is 4 because teams can take at least 15 red cards
         String binaryRedCards = ConvertUtils.convertToBinary(teamStatistics.getRedCard(), 4);
@@ -262,7 +262,6 @@ public class TeamStatistics {
         finalSet = ConvertUtils.convertBinaryStringToDoubleArray(finalSet, binaryDribbleWonPerGame);
         finalSet = ConvertUtils.convertBinaryStringToDoubleArray(finalSet, binaryFoulGivenPerGame);
         finalSet = ConvertUtils.convertBinaryStringToDoubleArray(finalSet, binaryPassSuccess);
-
         return finalSet;
     }
 
