@@ -17,67 +17,27 @@ public class Main {
 
     public static void main(String[] args) {
 
-        JsonParser parser = new JsonParser();
         // List that contains the champion of each year and all other competitors team statistics
         List<LeagueChampion> leagueChampionList = new ArrayList<LeagueChampion>();
 
         for(int i = 0; i < args.length; i++) {
-
-            JsonObject championsObject = null;
-            try {
-                championsObject = (JsonObject) parser.parse(new FileReader(args[i]));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-
-            // Sets Champion id
-            LeagueChampion leagueChampion = new LeagueChampion();
-            JsonObject championsInfo = championsObject.get("championsInfo").getAsJsonObject();
-            leagueChampion.setChampionId(championsInfo.get("championId").getAsInt());
-
-            for (int x=0; x < championsObject.get("teamTableStats").getAsJsonArray().size(); x++)
-            {
-                JsonObject team = championsObject.get("teamTableStats").getAsJsonArray().get(x).getAsJsonObject();
-
-                // Sets participant team attributes
-                TeamStatistics teamStatistics = new TeamStatistics();
-
-                teamStatistics.setRanking(team.get("ranking").getAsInt());
-                //System.out.println(teamStatistics.getRanking());
-
-                teamStatistics.setTeamId(team.get("teamId").getAsInt());
-                //System.out.println(teamStatistics.getTeamId());
-
-                teamStatistics.setTeamName(team.get("teamName").getAsString());
-                System.out.println("TEAM:" + teamStatistics.getTeamId() + "--" + teamStatistics.getTeamName());
-
-                teamStatistics.setRating(team.get("rating").getAsFloat());
-                teamStatistics.setRedCard(team.get("redCard").getAsInt());
-                teamStatistics.setYellowCard(team.get("yellowCard").getAsInt());
-                teamStatistics.setPossession(team.get("possession").getAsFloat());
-                teamStatistics.setAerialWonPerGame(team.get("aerialWonPerGame").getAsInt());
-                teamStatistics.setTacklePerGame(team.get("tacklePerGame").getAsFloat());
-                teamStatistics.setInterceptionPerGame(team.get("interceptionPerGame").getAsInt());
-                teamStatistics.setFoulsPerGame(team.get("foulsPerGame").getAsInt());
-                teamStatistics.setOffsideGivenPerGame(team.get("offsideGivenPerGame").getAsInt());
-                teamStatistics.setShotsConcededPerGame(team.get("shotsConcededPerGame").getAsFloat());
-                teamStatistics.setShotsPerGame(team.get("shotsPerGame").getAsFloat());
-                teamStatistics.setShotOnTargetPerGame(team.get("shotOnTargetPerGame").getAsFloat());
-                teamStatistics.setDribbleWonPerGame(team.get("dribbleWonPerGame").getAsFloat());
-                teamStatistics.setFoulsPerGame(team.get("foulGivenPerGame").getAsInt());
-                teamStatistics.setPassSuccess(team.get("passSuccess").getAsInt());
-
-                // Add the participant team to the list in the champion object
-                leagueChampion.addTeamStatistics(teamStatistics);
-
-            }
-            // Add the champion object to the global list
-            System.out.println("Champion:" + leagueChampion.getChampionId());
+            LeagueChampion leagueChampion = ConvertUtils.convertDatasetToLeagueChampion(args[i]);
             leagueChampionList.add(leagueChampion);
         }
+
         System.out.println("\n \n \n");
-        Backpropagation neuralNet = new Backpropagation(74,12);
-        DataSet trainDataSet = new DataSet(74,12);
+
+        // Create the net layout, hidden layers and neuron at each layer
+        int numberOfIntermediateLayers = 3;
+        int neuralNetLayout[] = new int[numberOfIntermediateLayers];
+        int[] numberOfNeuronsPerLayer = {4,6,5};
+        for (int x = 0; x < numberOfIntermediateLayers ; x++){
+            neuralNetLayout[x] = numberOfNeuronsPerLayer[x];
+        }
+
+        int numberOfTeamsAtEachFile = 32;
+        Backpropagation neuralNet = new Backpropagation(74 * numberOfTeamsAtEachFile,12, neuralNetLayout);
+        DataSet trainDataSet = new DataSet(74 * numberOfTeamsAtEachFile,12);
 
         double[] trainSet = new double[0];
         double[] trainOutput;
@@ -86,34 +46,34 @@ public class Main {
         for(int i = 0; i < leagueChampionList.size(); i++) {
 
             trainOutput = leagueChampionList.get(i).getChampionIdInBinary();
-            //System.out.println(trainOutput);
 
             for(int x = 0; x < leagueChampionList.get(i).getTeamStatisticsList().size(); x++) {
                 TeamStatistics teamStatistics = leagueChampionList.get(i).getTeamStatisticsList().get(x);
-                trainSet = teamStatistics.getBinaryStatistics();
-                //System.out.println(trainSet);
+                double[] currentSet = teamStatistics.getBinaryStatistics();
+                // concatenate all the team statistics of each league
+                trainSet = ConvertUtils.concatenateTwoArrays(trainSet, currentSet);
+            }
 
-                try {
-                    DataSetObject dataSetObj = new DataSetObject(trainSet, trainOutput);
-                    trainDataSet.Add(dataSetObj);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            // Add the train set to the dataset
+            try {
+                DataSetObject dataSetObj = new DataSetObject(trainSet, trainOutput);
+                trainDataSet.Add(dataSetObj);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 
         try {
             neuralNet.Learn(trainDataSet);
 
-            Export.DataSet(trainDataSet, ".\\arquivos\\trainingset.json");
-            Export.NeuralNetworkStructure(neuralNet, ".\\arquivos\\netStructure.json");
-            Export.KnowledgeBase(neuralNet, ".\\arquivos\\netKnowledge.json");
+            String projectDirectory = System.getProperty("user.dir") + "\\src\\br\\unisc\\ia\\arquivos\\";
 
+            Export.DataSet(trainDataSet, projectDirectory + "trainingset.json");
+            Export.NeuralNetworkStructure(neuralNet, projectDirectory + "netStructure.json");
+            Export.KnowledgeBase(neuralNet, projectDirectory + "netKnowledge.json");
 
-            double[] resposta = neuralNet.Recognize(trainSet);
-            for (int x = 0; x < resposta.length; x++){
-                System.out.println(resposta[x]);
-            }
+            System.out.print("Neural net trained\n\n");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
