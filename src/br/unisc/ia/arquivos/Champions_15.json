@@ -1,9 +1,9 @@
 {
-	"championsInfo": [
-		"year": "15",
-		"champion": "Barcelona",
-		"championId": 65
-	],
+	"championsInfo": {
+	  "year": 15,
+	  "champion": "Barcelona",
+	  "championId": 65
+	},
 	
 	"statColumns": [
 		"teamId",

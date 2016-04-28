@@ -1,9 +1,9 @@
 {
-	"championsInfo": [
-		"year": "13",
+	"championsInfo": {
+		"year": 13,
 		"champion": "Bayern Munich",
 		"championId": 37
-	],
+	},
 	
 	"statColumns": [
 		"teamId",
@@ -177,7 +177,7 @@
 			"shotsPerGame": 15.666667,
 			"aerialWonPerGame": 10.333333,
 			"possession": 0.5162433,
-			"passSuccess": 0.86293244
+			"passSuccess": 0.86293244,
 			"tacklePerGame": 16.166666,
 			"interceptionPerGame": 17.166666,
 			"foulsPerGame": 11,

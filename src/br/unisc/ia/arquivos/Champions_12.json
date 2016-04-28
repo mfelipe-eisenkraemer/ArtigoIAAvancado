@@ -1,9 +1,9 @@
 {
-	"championsInfo": [
-		"year": "12",
+	"championsInfo": {
+		"year": 12,
 		"champion": "Chelsea",
 		"championId": 15
-	],
+	},
 	
 	"statColumns": [
 		"teamId",

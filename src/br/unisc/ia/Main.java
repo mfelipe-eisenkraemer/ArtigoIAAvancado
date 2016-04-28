@@ -43,13 +43,13 @@ public class Main {
                 TeamStatistics teamStatistics = new TeamStatistics();
 
                 teamStatistics.setRanking(team.get("ranking").getAsInt());
-                System.out.println(teamStatistics.getRanking());
+                //System.out.println(teamStatistics.getRanking());
 
                 teamStatistics.setTeamId(team.get("teamId").getAsInt());
-                System.out.println(teamStatistics.getTeamId());
+                //System.out.println(teamStatistics.getTeamId());
 
                 teamStatistics.setTeamName(team.get("teamName").getAsString());
-                System.out.println(teamStatistics.getTeamName());
+                System.out.println("TEAM:" + teamStatistics.getTeamId() + "--" + teamStatistics.getTeamName());
 
                 teamStatistics.setRating(team.get("rating").getAsFloat());
                 teamStatistics.setRedCard(team.get("redCard").getAsInt());
@@ -71,29 +71,31 @@ public class Main {
                 leagueChampion.addTeamStatistics(teamStatistics);
 
             }
-            // Add the chamion object to the global list
+            // Add the champion object to the global list
+            System.out.println("Champion:" + leagueChampion.getChampionId());
             leagueChampionList.add(leagueChampion);
         }
+        System.out.println("\n \n \n");
+        Backpropagation neuralNet = new Backpropagation(74,12);
+        DataSet trainDataSet = new DataSet(74,12);
 
-        Backpropagation neuralNet = new Backpropagation(78,12);
-        DataSet trainDataSet = new DataSet(78,12);
-
-        double[] trainSet;
+        double[] trainSet = new double[0];
         double[] trainOutput;
 
         // Iterate over all champions to generate binary entries to neural net
         for(int i = 0; i < leagueChampionList.size(); i++) {
 
             trainOutput = leagueChampionList.get(i).getChampionIdInBinary();
-            System.out.println(trainOutput);
+            //System.out.println(trainOutput);
 
             for(int x = 0; x < leagueChampionList.get(i).getTeamStatisticsList().size(); x++) {
                 TeamStatistics teamStatistics = leagueChampionList.get(i).getTeamStatisticsList().get(x);
                 trainSet = teamStatistics.getBinaryStatistics();
-                System.out.println(trainOutput);
+                //System.out.println(trainSet);
 
                 try {
-                    trainDataSet.Add(new DataSetObject(trainSet, trainOutput));
+                    DataSetObject dataSetObj = new DataSetObject(trainSet, trainOutput);
+                    trainDataSet.Add(dataSetObj);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -103,10 +105,15 @@ public class Main {
         try {
             neuralNet.Learn(trainDataSet);
 
-            Export.DataSet(trainDataSet, "D:\\Programas\\Desenv\\DefaultProjects\\ArtigoIAAvancado\\src\\br\\unisc\\ia\\arquivos\\trainingset.json");
-            Export.NeuralNetworkStructure(neuralNet, "D:\\Programas\\Desenv\\DefaultProjects\\ArtigoIAAvancado\\src\\br\\unisc\\ia\\arquivos\\netStructure.json");
-            Export.KnowledgeBase(neuralNet, "D:\\Programas\\Desenv\\DefaultProjects\\ArtigoIAAvancado\\src\\br\\unisc\\ia\\arquivos\\netKnowledge.json");
+            Export.DataSet(trainDataSet, ".\\arquivos\\trainingset.json");
+            Export.NeuralNetworkStructure(neuralNet, ".\\arquivos\\netStructure.json");
+            Export.KnowledgeBase(neuralNet, ".\\arquivos\\netKnowledge.json");
 
+
+            double[] resposta = neuralNet.Recognize(trainSet);
+            for (int x = 0; x < resposta.length; x++){
+                System.out.println(resposta[x]);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

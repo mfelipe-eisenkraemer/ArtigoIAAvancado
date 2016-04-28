@@ -188,66 +188,100 @@ public class TeamStatistics {
         TeamStatistics teamStatistics = this;
 
         // min size is 6 because we have more than 31 rankings
-        String binaryRanking = ConvertUtils.convertToBinary(teamStatistics.getRanking(), 6);
+        //String binaryRanking = ConvertUtils.convertToBinary(teamStatistics.getRanking(), 6);
 
         // min size is 4 because teams can take at least 15 red cards
-        String binaryRedCards = ConvertUtils.convertToBinary(teamStatistics.getRedCard(), 4);
+        String binaryRedCards = ConvertUtils.convertToBinary(teamStatistics.getRedCard(), 5);
 
         // min size is 5 because teams can take at least 31 yellow cards
-        String binaryYellowCards = ConvertUtils.convertToBinary(teamStatistics.getYellowCard(), 5);
+        String binaryYellowCards = ConvertUtils.convertToBinary(teamStatistics.getYellowCard(), 6);
 
         // min size is 8 because possession can be 100%
         float possessionPercentage = teamStatistics.getPossession() * 100;
         int integerPossession = Math.round(possessionPercentage);
-        String binaryPossession = ConvertUtils.convertToBinary(integerPossession, 8);
+        String binaryPossession = "";
+
+        // Creating the intervals for each possession, with this we can separate them in groups
+        if(integerPossession < 40){
+            binaryPossession = "001";
+        }
+        else if(integerPossession >= 40 && integerPossession <50){
+            binaryPossession = "010";
+        }
+        else if(integerPossession >= 50 && integerPossession <=60){
+            binaryPossession = "011";
+        }
+        else if(integerPossession > 60 && integerPossession <=70){
+            binaryPossession = "100";
+        }
+        else { // if(integerPossession > 70)
+            binaryPossession = "101";
+        }
 
         // min size is 4 because teams can take at least 15 aerial wins per game
-        String binaryAerialWon = ConvertUtils.convertToBinary(teamStatistics.getAerialWonPerGame(), 4);
+        String binaryAerialWon = ConvertUtils.convertToBinary(teamStatistics.getAerialWonPerGame(), 5);
 
         // min size is 5 because teams can take at least 31 tackles
         int integerTacklePerGame = Math.round(teamStatistics.getTacklePerGame());
-        String binaryTacklePerGame = ConvertUtils.convertToBinary(integerTacklePerGame, 5);
+        String binaryTacklePerGame = ConvertUtils.convertToBinary(integerTacklePerGame, 6);
 
         // min size is 5 because teams can take at least 31 interceptions
         int integerInterceptionPerGame = Math.round(teamStatistics.getInterceptionPerGame());
-        String binaryInterceptionPerGame = ConvertUtils.convertToBinary(integerInterceptionPerGame, 5);
+        String binaryInterceptionPerGame = ConvertUtils.convertToBinary(integerInterceptionPerGame, 6);
 
         // min size is 5 because teams can take at least 31 fouls
         int integerFoulsPerGame = Math.round(teamStatistics.getInterceptionPerGame());
-        String binaryFoulsPerGame = ConvertUtils.convertToBinary(integerFoulsPerGame, 5);
+        String binaryFoulsPerGame = ConvertUtils.convertToBinary(integerFoulsPerGame, 6);
 
         // min size is 4 because teams can take at least 15 offsides
-        String binaryOffsideGivenPerGame = ConvertUtils.convertToBinary(teamStatistics.getOffsideGivenPerGame(), 4);
+        String binaryOffsideGivenPerGame = ConvertUtils.convertToBinary(teamStatistics.getOffsideGivenPerGame(), 5);
 
         // min size is 5 because teams can take at least 31 shots conceded per game
         int integerShotsConcededPerGame = Math.round(teamStatistics.getShotsConcededPerGame());
-        String binaryShotsConcededPerGame = ConvertUtils.convertToBinary(integerShotsConcededPerGame, 5);
+        String binaryShotsConcededPerGame = ConvertUtils.convertToBinary(integerShotsConcededPerGame, 6);
 
         // min size is 5 because teams can take at least 31 shots per game
         int integerShotsPerGame = Math.round(teamStatistics.getShotsPerGame());
-        String binaryShotsPerGame = ConvertUtils.convertToBinary(integerShotsPerGame, 5);
+        String binaryShotsPerGame = ConvertUtils.convertToBinary(integerShotsPerGame, 6);
 
         // min size is 5 because teams can take at least 31 shots on target per game
         int integerShotOnTargetPerGame = Math.round(teamStatistics.getShotOnTargetPerGame());
-        String binaryShotOnTargetPerGame = ConvertUtils.convertToBinary(integerShotOnTargetPerGame, 5);
+        String binaryShotOnTargetPerGame = ConvertUtils.convertToBinary(integerShotOnTargetPerGame, 6);
 
         // min size is 4 because teams can take at least 15 offsides
         int integerDribbleWonPerGame = Math.round(teamStatistics.getDribbleWonPerGame());
-        String binaryDribbleWonPerGame = ConvertUtils.convertToBinary(integerDribbleWonPerGame, 4);
+        String binaryDribbleWonPerGame = ConvertUtils.convertToBinary(integerDribbleWonPerGame, 5);
 
         // min size is 5 because teams can take at least 31 shots on target per game
         int integerFoulGivenPerGame = Math.round(teamStatistics.getFoulGivenPerGame());
-        String binaryFoulGivenPerGame = ConvertUtils.convertToBinary(integerFoulGivenPerGame, 5);
+        String binaryFoulGivenPerGame = ConvertUtils.convertToBinary(integerFoulGivenPerGame, 6);
 
         // min size is 8 because possession can be 100%
         float passSuccessPercentage = teamStatistics.getPassSuccess() * 100;
         int integerPassSuccess = Math.round(passSuccessPercentage);
-        String binaryPassSuccess = ConvertUtils.convertToBinary(integerPassSuccess, 8);
+        String binaryPassSuccess = "";
+
+        // Creating the intervals for pass success, with this we can separate them in groups
+        if(integerPassSuccess < 70){
+            binaryPassSuccess = "001";
+        }
+        else if(integerPassSuccess >= 70 && integerPassSuccess < 80){
+            binaryPassSuccess = "010";
+        }
+        else if(integerPassSuccess >= 80 && integerPassSuccess < 85){
+            binaryPassSuccess = "011";
+        }
+        else if(integerPassSuccess >= 85 && integerPassSuccess < 90){
+            binaryPassSuccess = "100";
+        }
+        else { // if(integerPassSuccess >= 90
+            binaryPassSuccess = "101";
+        }
 
 
         double[] finalSet = {};
 
-        finalSet = ConvertUtils.convertBinaryStringToDoubleArray(finalSet, binaryRanking);
+        //finalSet = ConvertUtils.convertBinaryStringToDoubleArray(finalSet, binaryRanking);
         finalSet = ConvertUtils.convertBinaryStringToDoubleArray(finalSet, binaryRedCards);
         finalSet = ConvertUtils.convertBinaryStringToDoubleArray(finalSet, binaryYellowCards);
         finalSet = ConvertUtils.convertBinaryStringToDoubleArray(finalSet, binaryPossession);
