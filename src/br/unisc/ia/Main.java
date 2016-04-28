@@ -45,6 +45,7 @@ public class Main {
         // Iterate over all champions to generate binary entries to neural net
         for(int i = 0; i < leagueChampionList.size(); i++) {
 
+            trainSet = new double[0];
             trainOutput = leagueChampionList.get(i).getChampionIdInBinary();
 
             for(int x = 0; x < leagueChampionList.get(i).getTeamStatisticsList().size(); x++) {
