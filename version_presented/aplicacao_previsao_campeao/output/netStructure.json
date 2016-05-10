@@ -1,0 +1,1 @@
+{"type":"Backpropagation","inputLayerSize":2368,"iterationNumber":10000,"outputLayerSize":12,"learningRate":0.3,"error":0.005,"hiddenLayerSizes":[4,3]}

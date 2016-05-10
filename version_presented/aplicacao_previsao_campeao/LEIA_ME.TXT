@@ -1,0 +1,16 @@
+Trabalho I - Inteligência Artificial Avancada - Redes Neurais Artificais
+Lauro Tremea Culau e Mateus Felipe Eisenkraemer
+
+"Utilização de Redes Neurais Artificiais para previsão de campeão da UEFA Champions League baseada em estatísticas de temporadas anteriores"
+
+A aplicação criada é o arquivo predictChampions.jar
+
+O código fonte está na pasta: src
+API do ADReNA está na pasta: lib
+Os dados de entrada para a aplicação, os arquivos json de temporadas anteriores, estão na pasta: input.
+Os dados de treinamento que são gerados pela rede neural, estão na pasta: output.
+
+
+Para executar, execute o seguinte comando no terminal ou CMD:
+
+java -jar predictChampions.jar <intermediate_layers> <neurons_per_layes Use: x,y,z> <file_train_1.json> ... <file_train_N.json> <file_to_recognize.json>
